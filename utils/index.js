@@ -1,6 +1,11 @@
 const d3 = require('d3');
 
 const makeRinkWithD3 = (home, away) => {
+  if(document.getElementsByTagName('svg') && document.getElementsByTagName('svg').length > 0){
+    let svgArr=document.getElementsByTagName('svg')
+    for (let i = 0; i < svgArr.length; i++)
+    {svgArr[i].setAttribute("style", "display: none;")};  
+  }
   const w = 400
   const h = 168
   var rinkArrHome = [];;
@@ -33,7 +38,7 @@ const makeRinkWithD3 = (home, away) => {
   function incrementShotAway(x, y) {
   x=x*2
   y=y*2
-  console.log(x,y)
+  // console.log(x,y)
   for (let i = 0; i < rinkArrAway.length; i++) {
     if (x >= rinkArrAway[i][0] && x < (rinkArrAway[i][0]+8)) {
       if (y >= rinkArrAway[i][1] && y < (rinkArrAway[i][1]+8)){
@@ -54,7 +59,7 @@ const makeRinkWithD3 = (home, away) => {
   }
   
   
-  console.log(rinkArrHome, rinkArrAway)
+  // console.log(rinkArrHome, rinkArrAway)
   
   // const itemSize = 8
   // const cellSize = itemSize -.5
@@ -66,9 +71,44 @@ const makeRinkWithD3 = (home, away) => {
   .append('svg')
   .attr('width', w+10)
   .attr('height', h+10)
+
+  const redLine = svg.append('rect')
+    .attr('x', 198)
+    .attr('y', 0)
+    .attr('height', h)
+    .attr('width', '4')
+    .style('fill', 'red')
+  
+  const leftGoalLine = svg.append('rect')
+    .attr('x', 22)
+    .attr('y', 6)
+    .attr('height', h-12)
+    .attr('width', '4')
+    .style('fill', 'red')
+  
+  const rightGoalLine = svg.append('rect')
+    .attr('x', 378)
+    .attr('y', 6)
+    .attr('height', h-12)
+    .attr('width', '4')
+    .style('fill', 'red')
+  
+  const leftBlueLine = svg.append('rect')
+    .attr('x', 144)
+    .attr('y', 0)
+    .attr('height', h)
+    .attr('width', '4')
+    .style('fill', 'blue')
+  
+  const rightBlueLine = svg.append('rect')
+    .attr('x', 252)
+    .attr('y', 0)
+    .attr('height', h)
+    .attr('width', '4')
+    .style('fill', 'blue')
   
   const bordercolor = 'black'
-  const border = 1
+  const border = 4
   const borderPath = svg.append("rect")
   .attr('rx', 45)
   .attr('ry', 45)

@@ -29228,7 +29228,6 @@ var Main = function (_Component) {
     key: 'handleChange',
     value: function handleChange(evt) {
       var gameId = evt.target.value;
-      console.log('messageeeeeee', gameId);
       this.setState({ selection: evt.target.value });
     }
   }, {
@@ -29236,7 +29235,6 @@ var Main = function (_Component) {
     value: function handleSubmit(evt) {
       evt.preventDefault();
       var gameId = this.state.selection;
-      console.log('second gameID', gameId);
       this.props.getGameData(this.state.selection);
     }
   }, {
@@ -29247,9 +29245,10 @@ var Main = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
+      console.log(this.props.game.gameData);
       return _react2.default.createElement(
         'div',
-        null,
+        { className: 'text-center' },
         _react2.default.createElement(
           'h1',
           null,
@@ -29261,6 +29260,7 @@ var Main = function (_Component) {
           _react2.default.createElement(
             'select',
             { onChange: this.handleChange, value: this.state.selection },
+            _react2.default.createElement('option', null),
             schedule.map(function (game) {
               return _react2.default.createElement(
                 'option',
@@ -29271,7 +29271,11 @@ var Main = function (_Component) {
               );
             })
           ),
-          _react2.default.createElement('input', { type: 'submit', value: 'Go!' })
+          _react2.default.createElement(
+            'button',
+            { type: 'submit', className: 'btn btn-sm btn-danger pull-right', style: { margin: 10 } },
+            'Feel the Heat'
+          )
         ),
         this.props.game.gameData ? _react2.default.createElement(
           'div',
@@ -29283,7 +29287,7 @@ var Main = function (_Component) {
         ) : _react2.default.createElement(
           'h3',
           null,
-          'Loading...'
+          'Choose a Game!'
         )
       );
     }
@@ -29312,11 +29316,6 @@ var schedule = [{
   "est": "20171004 19:00:00",
   "a": "TOR",
   "h": "WPG"
-}, {
-  "id": 2017020007,
-  "est": "20171005 19:00:00",
-  "a": "COL",
-  "h": "NYR"
 }, {
   "id": 2017020009,
   "est": "20171005 19:30:00",
@@ -30273,7 +30272,7 @@ var fetchGame = exports.fetchGame = function fetchGame(id) {
     _axios2.default.get('/api/getAllShots/' + id).then(function (gameInfo) {
       dispatch(getGameInfo(gameInfo.data));
     }).catch(function (error) {
-      return console.error(error);
+      return console.log(error);
     });
   };
 };
@@ -32290,6 +32289,11 @@ var Rink = function (_Component) {
   }
 
   _createClass(Rink, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      // this.props.getGameData()
+    }
+  }, {
     key: 'render',
     value: function render() {
       var home = this.props.game.shotDataHome;
@@ -32312,9 +32316,9 @@ var mapStateToProps = function mapStateToProps(state) {
 };
 var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
   return {
-    getGameData: function getGameData() {
-      dispatch((0, _store.fetchGame)());
-    }
+    // getGameData: function() {
+    //   dispatch(fetchGame())
+    // }
   };
 };
 exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Rink);
@@ -32329,19 +32333,25 @@ exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(
 var d3 = __webpack_require__(274);
 
 var makeRinkWithD3 = function makeRinkWithD3(home, away) {
+  if (document.getElementsByTagName('svg') && document.getElementsByTagName('svg').length > 0) {
+    var svgArr = document.getElementsByTagName('svg');
+    for (var i = 0; i < svgArr.length; i++) {
+      svgArr[i].setAttribute("style", "display: none;");
+    };
+  }
   var w = 400;
   var h = 168;
   var rinkArrHome = [];;
   var rinkArrAway = [];;
   // Seed Rink Arr
-  for (var i = 0; i < 25; i++) {
+  for (var _i = 0; _i < 25; _i++) {
     for (var j = 0; j < 21; j++) {
-      rinkArrHome.push([i * 8, j * 8, 0]);
+      rinkArrHome.push([_i * 8, j * 8, 0]);
     }
   }
-  for (var _i = 25; _i < 50; _i++) {
+  for (var _i2 = 25; _i2 < 50; _i2++) {
     for (var _j = 0; _j < 21; _j++) {
-      rinkArrAway.push([_i * 8, _j * 8, 0]);
+      rinkArrAway.push([_i2 * 8, _j * 8, 0]);
     }
   }
 
@@ -32349,10 +32359,10 @@ var makeRinkWithD3 = function makeRinkWithD3(home, away) {
     x = x * 2;
     y = y * 2;
     console.log(x, y);
-    for (var _i2 = 0; _i2 < rinkArrHome.length; _i2++) {
-      if (x >= rinkArrHome[_i2][0] && x < rinkArrHome[_i2][0] + 8) {
-        if (y >= rinkArrHome[_i2][1] && y < rinkArrHome[_i2][1] + 8) {
-          rinkArrHome[_i2][2]++;
+    for (var _i3 = 0; _i3 < rinkArrHome.length; _i3++) {
+      if (x >= rinkArrHome[_i3][0] && x < rinkArrHome[_i3][0] + 8) {
+        if (y >= rinkArrHome[_i3][1] && y < rinkArrHome[_i3][1] + 8) {
+          rinkArrHome[_i3][2]++;
         }
       }
     }
@@ -32361,26 +32371,26 @@ var makeRinkWithD3 = function makeRinkWithD3(home, away) {
   function incrementShotAway(x, y) {
     x = x * 2;
     y = y * 2;
-    console.log(x, y);
-    for (var _i3 = 0; _i3 < rinkArrAway.length; _i3++) {
-      if (x >= rinkArrAway[_i3][0] && x < rinkArrAway[_i3][0] + 8) {
-        if (y >= rinkArrAway[_i3][1] && y < rinkArrAway[_i3][1] + 8) {
-          rinkArrAway[_i3][2]++;
+    // console.log(x,y)
+    for (var _i4 = 0; _i4 < rinkArrAway.length; _i4++) {
+      if (x >= rinkArrAway[_i4][0] && x < rinkArrAway[_i4][0] + 8) {
+        if (y >= rinkArrAway[_i4][1] && y < rinkArrAway[_i4][1] + 8) {
+          rinkArrAway[_i4][2]++;
         }
       }
     }
   }
 
-  for (var _i4 = 0; _i4 < home.length; _i4++) {
+  for (var _i5 = 0; _i5 < home.length; _i5++) {
     // console.log('***', shotData[i].coordinates.x)
-    incrementShotHome(home[_i4].coordinates.x, home[_i4].coordinates.y);
+    incrementShotHome(home[_i5].coordinates.x, home[_i5].coordinates.y);
   }
 
-  for (var _i5 = 0; _i5 < away.length; _i5++) {
-    incrementShotAway(away[_i5].coordinates.x, away[_i5].coordinates.y);
+  for (var _i6 = 0; _i6 < away.length; _i6++) {
+    incrementShotAway(away[_i6].coordinates.x, away[_i6].coordinates.y);
   }
 
-  console.log(rinkArrHome, rinkArrAway);
+  // console.log(rinkArrHome, rinkArrAway)
 
   // const itemSize = 8
   // const cellSize = itemSize -.5
@@ -32389,8 +32399,18 @@ var makeRinkWithD3 = function makeRinkWithD3(home, away) {
   // const cellPadding = 1;
   var svg = d3.select('body').append('svg').attr('width', w + 10).attr('height', h + 10);
 
+  var redLine = svg.append('rect').attr('x', 198).attr('y', 0).attr('height', h).attr('width', '4').style('fill', 'red');
+
+  var leftGoalLine = svg.append('rect').attr('x', 22).attr('y', 6).attr('height', h - 12).attr('width', '4').style('fill', 'red');
+
+  var rightGoalLine = svg.append('rect').attr('x', 378).attr('y', 6).attr('height', h - 12).attr('width', '4').style('fill', 'red');
+
+  var leftBlueLine = svg.append('rect').attr('x', 144).attr('y', 0).attr('height', h).attr('width', '4').style('fill', 'blue');
+
+  var rightBlueLine = svg.append('rect').attr('x', 252).attr('y', 0).attr('height', h).attr('width', '4').style('fill', 'blue');
+
   var bordercolor = 'black';
-  var border = 1;
+  var border = 4;
   var borderPath = svg.append("rect").attr('rx', 45).attr('ry', 45).attr("x", 0).attr("y", 0).attr("height", h).attr("width", w).style("stroke", bordercolor).style("fill", "none").style("stroke-width", border);
 
   var colorScaleHome = d3.scaleLinear().domain([0, 4]).range(['white', 'red']);

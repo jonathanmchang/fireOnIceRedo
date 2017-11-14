@@ -9,14 +9,18 @@ class Rink extends Component {
     super(props)
   }
 
+  componentDidMount() {
+    // this.props.getGameData()
+  }
 
   render() {
     const home = this.props.game.shotDataHome;
     const away = this.props.game.shotDataAway;
     return(
       <div>
-
+        
         {makeRinkWithD3(home, away)}
+
       </div>
     )
   }
@@ -32,9 +36,9 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    getGameData: function() {
-      dispatch(fetchGame())
-    }
+    // getGameData: function() {
+    //   dispatch(fetchGame())
+    // }
   }
 }
 export default connect(mapStateToProps, mapDispatchToProps)(Rink);

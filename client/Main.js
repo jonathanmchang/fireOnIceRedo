@@ -16,14 +16,12 @@ class Main extends Component {
 
   handleChange(evt) {
     const gameId = evt.target.value
-    console.log('messageeeeeee', gameId)
     this.setState({ selection: evt.target.value })
   }
   
   handleSubmit(evt) {
     evt.preventDefault()
     const gameId = this.state.selection
-    console.log('second gameID', gameId)
     this.props.getGameData(this.state.selection)
   }
 
@@ -32,11 +30,13 @@ class Main extends Component {
   }
 
   render() {
+    console.log(this.props.game.gameData);
     return (
-      <div>
+      <div className='text-center'>
         <h1>Fire on Ice</h1>
         <form onSubmit={this.handleSubmit} >
-          <select onChange={this.handleChange} value={this.state.selection}>
+
+          <select onChange={this.handleChange} value={this.state.selection}><option></option>
             {
               schedule.map(game => {
                 return (
@@ -47,7 +47,7 @@ class Main extends Component {
               })
             }
           </select>
-          <input type='submit' value='Go!' />
+          <button type='submit' className='btn btn-sm btn-danger pull-right' style={{margin:10}}>Feel the Heat</button>
         </form>
         {
           this.props.game.gameData
@@ -56,7 +56,7 @@ class Main extends Component {
               {this.props.game.gameData.home.name} vs. {this.props.game.gameData.away.name}
               <Rink />
             </div>
-            : <h3>Loading...</h3>
+            : <h3>Choose a Game!</h3>
         }
       </div>
     )
@@ -84,12 +84,6 @@ const schedule = [
     "est": "20171004 19:00:00",
     "a": "TOR",
     "h": "WPG"
-  },
-  {
-    "id": 2017020007,
-    "est": "20171005 19:00:00",
-    "a": "COL",
-    "h": "NYR"
   },
   {
     "id": 2017020009,

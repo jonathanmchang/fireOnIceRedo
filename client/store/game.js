@@ -13,7 +13,7 @@ export const fetchGame = (id) => (dispatch) => {
   .then(gameInfo => {
     dispatch(getGameInfo(gameInfo.data))
   })
-  .catch(error => console.error(error))
+  .catch(error => console.log(error))
 }
 
 // Reducer
