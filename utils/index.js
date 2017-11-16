@@ -147,20 +147,23 @@ const makeRinkWithD3 = (home, away) => {
   let colorScaleAway = d3.scaleLinear()
   .domain([0,4])
   .range(['white', 'blue'])
+
+  let sizeScale = d3.scaleLinear()
+  .domain([0,4])
+  .range([0,20])
   
   var layer = svg.append('g');
   
   let heatCellsHome = svg.selectAll('rect')
   .data(rinkArrHome)
   .enter()
-  // .append('g')
-  .append('rect')
-  .attr('rx', 6)
-  .attr('ry', 6)
-  .attr('x', (d) => d[0])
-  .attr('y', (d)=> d[1] )      
-  .attr('width', cellSize)
-  .attr('height', cellSize)
+  .append('circle')
+  .attr('r', (d) => sizeScale(d[2]))
+  // .attr('ry', 6)
+  .attr('cx', (d) => d[0])
+  .attr('cy', (d)=> d[1] )      
+  // .attr('width', cellSize)
+  // .attr('height', cellSize)
   .attr('fill', (d) => colorScaleHome(d[2]))
   .attr('opacity', .8)  
   
