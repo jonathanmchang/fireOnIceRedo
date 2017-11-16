@@ -30,7 +30,7 @@ class Main extends Component {
   }
 
   render() {
-    console.log(this.props.game.gameData);
+(this.props.game.gameData);
     return (
       <div className='text-center'>
         <h1>Fire on Ice</h1>

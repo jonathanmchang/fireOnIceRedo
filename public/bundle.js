@@ -29245,7 +29245,7 @@ var Main = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      console.log(this.props.game.gameData);
+      this.props.game.gameData;
       return _react2.default.createElement(
         'div',
         { className: 'text-center' },
@@ -32339,6 +32339,8 @@ var makeRinkWithD3 = function makeRinkWithD3(home, away) {
       svgArr[i].setAttribute("style", "display: none;");
     };
   }
+
+  // <--------------------------- Populate grid arrays ---------------------->
   var w = 400;
   var h = 168;
   var rinkArrHome = [];;
@@ -32358,7 +32360,7 @@ var makeRinkWithD3 = function makeRinkWithD3(home, away) {
   function incrementShotHome(x, y) {
     x = x * 2;
     y = y * 2;
-    console.log(x, y);
+    // console.log(x,y)
     for (var _i3 = 0; _i3 < rinkArrHome.length; _i3++) {
       if (x >= rinkArrHome[_i3][0] && x < rinkArrHome[_i3][0] + 8) {
         if (y >= rinkArrHome[_i3][1] && y < rinkArrHome[_i3][1] + 8) {
@@ -32396,10 +32398,16 @@ var makeRinkWithD3 = function makeRinkWithD3(home, away) {
   // const cellSize = itemSize -.5
   var cellSize = 8;
 
+  // <------------------- Create SVG ------------------->
+
   // const cellPadding = 1;
   var svg = d3.select('body').append('svg').attr('width', w + 10).attr('height', h + 10);
 
   var redLine = svg.append('rect').attr('x', 198).attr('y', 0).attr('height', h).attr('width', '4').style('fill', 'red');
+
+  var leftGoal = svg.append('rect').attr('x', 18).attr('y', h / 2 - 6).attr('height', 12).attr('width', 8).style('fill', 'black').style('stroke-width', 8);
+
+  var rightGoal = svg.append('rect').attr('x', 378).attr('y', h / 2 - 6).attr('height', 12).attr('width', 8).style('fill', 'black').style('stroke-width', 8);
 
   var leftGoalLine = svg.append('rect').attr('x', 22).attr('y', 6).attr('height', h - 12).attr('width', '4').style('fill', 'red');
 
@@ -32411,7 +32419,7 @@ var makeRinkWithD3 = function makeRinkWithD3(home, away) {
 
   var bordercolor = 'black';
   var border = 4;
-  var borderPath = svg.append("rect").attr('rx', 45).attr('ry', 45).attr("x", 0).attr("y", 0).attr("height", h).attr("width", w).style("stroke", bordercolor).style("fill", "none").style("stroke-width", border);
+  var borderPath = svg.append("rect").attr('rx', 45).attr('ry', 45).attr("x", 0).attr("y", 0).attr("height", h).attr("width", w).style('opacity', 1).style("stroke", bordercolor).style("fill", "none").style("stroke-width", border);
 
   var colorScaleHome = d3.scaleLinear().domain([0, 4]).range(['white', 'red']);
 

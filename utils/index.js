@@ -6,6 +6,8 @@ const makeRinkWithD3 = (home, away) => {
     for (let i = 0; i < svgArr.length; i++)
     {svgArr[i].setAttribute("style", "display: none;")};  
   }
+
+  // <--------------------------- Populate grid arrays ---------------------->
   const w = 400
   const h = 168
   var rinkArrHome = [];;
@@ -25,7 +27,7 @@ const makeRinkWithD3 = (home, away) => {
   function incrementShotHome(x, y) {
   x=x*2
   y=y*2
-  console.log(x,y)
+  // console.log(x,y)
   for (let i = 0; i < rinkArrHome.length; i++) {
     if (x >= rinkArrHome[i][0] && x < (rinkArrHome[i][0]+8)) {
       if (y >= rinkArrHome[i][1] && y < (rinkArrHome[i][1]+8)){
@@ -65,7 +67,8 @@ const makeRinkWithD3 = (home, away) => {
   // const cellSize = itemSize -.5
   const cellSize = 8
   
-  
+  // <------------------- Create SVG ------------------->
+
   // const cellPadding = 1;
   let svg = d3.select('body')
   .append('svg')
@@ -78,6 +81,22 @@ const makeRinkWithD3 = (home, away) => {
     .attr('height', h)
     .attr('width', '4')
     .style('fill', 'red')
+  
+  const leftGoal = svg.append('rect')
+    .attr('x', 18)
+    .attr('y', (h/2)-6)
+    .attr('height', 12)
+    .attr('width', 8)
+    .style('fill', 'black')
+    .style('stroke-width', 8)
+  
+  const rightGoal = svg.append('rect')
+    .attr('x', 378)
+    .attr('y', (h/2)-6)
+    .attr('height', 12)
+    .attr('width', 8)
+    .style('fill', 'black')
+    .style('stroke-width', 8)
   
   const leftGoalLine = svg.append('rect')
     .attr('x', 22)
@@ -116,6 +135,7 @@ const makeRinkWithD3 = (home, away) => {
   .attr("y", 0)
   .attr("height", h)
   .attr("width", w)
+  .style('opacity', 1)
   .style("stroke", bordercolor)
   .style("fill", "none")
   .style("stroke-width", border);

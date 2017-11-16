@@ -33,10 +33,7 @@ router.get('/:id', (request, response, next) => {
       shotData.gameData.home.name = res.gameData.teams.home.name;
       // console.log("game data", shotData.gameData)
       // response.send(shotData)
-      return res
-    })
-    .then(res => {
-      // console.log(res)
+      
       let resArr = res.liveData.plays.allPlays
       for (let i = 0; i < resArr.length; i++) {
         if (resArr[i].result.event === 'Shot') {
@@ -56,7 +53,7 @@ router.get('/:id', (request, response, next) => {
       }
     })
     .then(() => {
-      // console.log('shotdata*****', shotData.shotDataAway)
+      console.log('shotdata*****', shotData.shotDataAway)
       response.json(shotData)
       // return shotData
     })
