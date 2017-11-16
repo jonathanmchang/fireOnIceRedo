@@ -1,12 +1,12 @@
 const router = require('express').Router();
 const axios = require('axios');
 const rp = require('request-promise')
-const convertCoordinates = require('../../utils');
+const { convertCoordinates } = require('../../utils');
 module.exports = router;
 
-router.get('/', (request, response, next) => {
+router.get('/:id', (request, response, next) => {
   const options = {
-    uri: `http://statsapi.web.nhl.com/api/v1/game/2017020001/feed/live`,
+    uri: `http://statsapi.web.nhl.com/api/v1/game/${request.params.id}/feed/live`,
     json: true
   }
   let shotData = {
@@ -31,12 +31,9 @@ router.get('/', (request, response, next) => {
 
       shotData.gameData.home.id = res.gameData.teams.home.id;
       shotData.gameData.home.name = res.gameData.teams.home.name;
-      console.log("game data", shotData.gameData)
+      // console.log("game data", shotData.gameData)
       // response.send(shotData)
-      return res
-    })
-    .then(res => {
-      console.log(res)
+      
       let resArr = res.liveData.plays.allPlays
       for (let i = 0; i < resArr.length; i++) {
         if (resArr[i].result.event === 'Shot') {
