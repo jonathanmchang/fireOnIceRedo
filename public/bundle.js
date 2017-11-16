@@ -32425,15 +32425,22 @@ var makeRinkWithD3 = function makeRinkWithD3(home, away) {
 
   var colorScaleAway = d3.scaleLinear().domain([0, 4]).range(['white', 'blue']);
 
+  var sizeScale = d3.scaleLinear().domain([0, 4]).range([0, 20]);
+
   var layer = svg.append('g');
 
-  var heatCellsHome = svg.selectAll('rect').data(rinkArrHome).enter()
-  // .append('g')
-  .append('rect').attr('rx', 6).attr('ry', 6).attr('x', function (d) {
+  var heatCellsHome = svg.selectAll('rect').data(rinkArrHome).enter().append('circle').attr('r', function (d) {
+    return sizeScale(d[2]);
+  })
+  // .attr('ry', 6)
+  .attr('cx', function (d) {
     return d[0];
-  }).attr('y', function (d) {
+  }).attr('cy', function (d) {
     return d[1];
-  }).attr('width', cellSize).attr('height', cellSize).attr('fill', function (d) {
+  })
+  // .attr('width', cellSize)
+  // .attr('height', cellSize)
+  .attr('fill', function (d) {
     return colorScaleHome(d[2]);
   }).attr('opacity', .8);
 
